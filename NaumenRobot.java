@@ -7,6 +7,10 @@ public class NaumenRobot implements RouteFinder {
     private Queue<Integer[]> steps = new LinkedList<>();
 
     NaumenRobot() {
+        /*
+        Конструктор класса.
+        В ТЗ интерфейс с не статическим методом - придётся создавать объект.
+        */
         this.startX = -1;
         this.startY = -1;
         this.endX = -1;
@@ -16,6 +20,10 @@ public class NaumenRobot implements RouteFinder {
 
     @Override
     public char[][] findRoute(char[][] charMap) {
+        /*
+        Реализация метода из интерфейса.
+        Основная логика реализована здесь.
+         */
         intMatrixCreate(charMap);
         steps.offer(new Integer[]{startY, startX});
         Integer[] coords;
@@ -29,6 +37,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private char[][] topographer(char[][] charMap) {
+        /*
+        Рисует один из возможных кратчайших путей.
+         */
         while (--found > 0) {
             if (endY > 0 && intMap[endY-1][endX] == found)
                 charMap[--endY][endX] = '+';
@@ -43,6 +54,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void doStep(Integer[] coords) {
+        /*
+        Проверяет есть ли возможность идти из текущей точки в каждую из 4 сторон.
+         */
         int len = intMap[coords[0]][coords[1]] + 1;
         if (coords[0] > 0)
             moveUp(len, coords);
@@ -55,6 +69,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void moveLeft(int len, Integer[] coords) {
+        /*
+        Шаг налево. Проверка на попадание в финишную точку или стену.
+         */
         int oldRouteLen = intMap[coords[0]][coords[1]-1];
         if (oldRouteLen == -2)
             found = len;
@@ -65,6 +82,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void moveDown(int len, Integer[] coords) {
+        /*
+        Шаг вниз. Проверка на попадание в финишную точку или стену.
+         */
         int oldRouteLen = intMap[coords[0]+1][coords[1]];
         if (oldRouteLen == -2)
             found = len;
@@ -75,6 +95,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void moveRight(int len, Integer[] coords) {
+        /*
+        Шаг направо. Проверка на попадание в финишную точку или стену.
+         */
         int oldRouteLen = intMap[coords[0]][coords[1]+1];
         if (oldRouteLen == -2)
             found = len;
@@ -85,6 +108,9 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void moveUp(int len, Integer[] coords) {
+        /*
+        Шаг вверх. Проверка на попадание в финишную точку или стену.
+         */
         int oldRouteLen = intMap[coords[0]-1][coords[1]];
         if (oldRouteLen == -2)
             found = len;
@@ -95,6 +121,10 @@ public class NaumenRobot implements RouteFinder {
     }
 
     private void intMatrixCreate(char[][] charMap) {
+        /*
+        Создание из базовой матрицы символов матрицы чисел
+        чтобы сравнивать текущие кратчайшие маршруты.
+         */
         intMap = new int[charMap.length][charMap[0].length];
         for (int y = 0; y < charMap.length; y++) {
             for (int x = 0; x < charMap[0].length; x++) {
